@@ -133,6 +133,8 @@ void Lookup::filter()
             lua["opcode"] = step.opcode.toStdString();
             lua["pushes_new_value"] = step.newValuePushed.value_or("").toStdString();
             lua["index"] = i;
+            lua["thread_index"] = step.threadIndex;
+            lua["thread_name"] = (*_contracts).at(step.threadIndex).title;
 
             lua.create_named_table("sets_memory_value");
             lua.create_named_table("sets_memory_slot");
@@ -196,6 +198,8 @@ void Lookup::seek()
             lua["opcode"] = step.opcode.toStdString();
             lua["pushes_new_value"] = step.newValuePushed.value_or("").toStdString();
             lua["index"] = index;
+            lua["thread_index"] = step.threadIndex;
+            lua["thread_name"] = (*_contracts).at(step.threadIndex).title;
 
             lua.create_named_table("sets_memory_value");
             lua.create_named_table("sets_memory_slot");

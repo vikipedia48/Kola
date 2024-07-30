@@ -107,7 +107,7 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
         std::vector<Model::StepStorage> storages;
         storages.reserve(opCount);
 
-        std::vector<Model::ExecutingContract> calls = { Model::ExecutingContract("this", 0, true) };
+        std::vector<Model::ExecutingContract> calls = { Model::ExecutingContract("this", 0, 1) };
         Model::Calldata mainCalldata;
 
         std::unordered_map<QString, std::unordered_set<Model::StorageSlot>> inferredStorage;
@@ -163,13 +163,11 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
 
                         calls[calls.size()-1].lastOperationIndex = i;
 
-                        QString threadTitle = "";
-                        auto currentDepth = op["depth"].toInt();
-                        for(auto i = 0; i < currentDepth; ++i) threadTitle += " -";
-                        threadTitle += " " + addr;
+                        auto nextOp = structLogs[i+1].toObject();
+                        auto nextDepth = nextOp["depth"].toInt();
 
                         auto calldata = opcode->calldata(stack, memory);
-                        calls.emplace_back(Model::ExecutingContract(threadTitle,i, false, calldata));
+                        calls.emplace_back(Model::ExecutingContract(addr,i, nextDepth, calldata));
                         if (inferredStorage.find(addr) == inferredStorage.end()) {
                             inferredStorage[addr] = {};
                         }

@@ -27,7 +27,13 @@ ContractCalls::ContractCalls(std::vector<Model::ExecutingContract>&& contracts, 
         "}"
         );
     for(auto& v : this->contractCalls) {
-        auto item = new QListWidgetItem(v.title);
+        QString threadTitle = "";
+        for(int i = 1; i < v.depth; ++i) {
+            threadTitle += " -";
+        }
+        if (v.depth > 1) threadTitle += " ";
+        threadTitle += v.title;
+        auto item = new QListWidgetItem(threadTitle);
         if (v.failed) item->setBackground(QBrush(QColor(250,7,7)));
         ui->listWidget_calls->addItem(item);
     }

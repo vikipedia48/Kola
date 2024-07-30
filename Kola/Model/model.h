@@ -59,7 +59,8 @@ struct ExecutingContract {
     Calldata calldata;
     bool isMain;
     bool failed;
-    ExecutingContract(QString title, int firstOperationIndex, bool isMain, Calldata calldata = {}) : title(title), firstOperationIndex(firstOperationIndex), isMain(isMain), calldata(calldata), failed(false) {}
+    int depth;
+    ExecutingContract(QString title, int firstOperationIndex, int depth, Calldata calldata = {}) : title(title), firstOperationIndex(firstOperationIndex), depth(depth), isMain(depth == 1), calldata(calldata), failed(false) {}
 };
 
 struct StorageSlot {
