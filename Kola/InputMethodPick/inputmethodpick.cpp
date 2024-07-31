@@ -100,6 +100,7 @@ void InputMethodPick::handleResponse(QNetworkReply *reply)
             emit sendStackTraceJson(resultObj);
         }
     }
+    showLoadingText(false);
     reply->deleteLater();
 }
 
