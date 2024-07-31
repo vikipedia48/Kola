@@ -73,6 +73,7 @@ void InputMethodPick::on_pushButton_web_send_clicked()
     showLoadingText(true);
 
     auto request = QNetworkRequest(QUrl(ui->lineEdit_rpcAddress->text()));
+    request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/json");
     auto requestBody = "{\"jsonrpc\":\"2.0\",\"method\":\"debug_traceTransaction\",\"params\":[\"" + ui->lineEdit_txHash->text() + "\"],\"id\":1}";
     connect(requestManager, &QNetworkAccessManager::finished, this, &InputMethodPick::handleResponse);
     requestManager->post(request, requestBody.toUtf8());
