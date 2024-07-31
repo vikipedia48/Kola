@@ -266,12 +266,13 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
                         auto offset = _offset.toUInt(&ok2, 16);
                         auto length = _length.toUInt(&ok3, 16);
                         if (ok1 && ok2 && ok3)  {
+                            auto memoryInThisJsonObject = getStringVectorFromJsonArray(op["memory"].toArray());
                             for(int index = 0; index < length; ++index) {
                                 int absoluteMemoryIndex = destOffset + index;
                                 int memorySlotIndex = absoluteMemoryIndex / 32;
                                 int stringIndex = (absoluteMemoryIndex%32) * 2;
-                                mainCalldata.setByte(offset*2+index, memory[memorySlotIndex].at(stringIndex));
-                                mainCalldata.setByte(offset*2+index+1, memory[memorySlotIndex].at(stringIndex+1));
+                                mainCalldata.setByte(offset*2+index, memoryInThisJsonObject[memorySlotIndex].at(stringIndex));
+                                mainCalldata.setByte(offset*2+index+1, memoryInThisJsonObject[memorySlotIndex].at(stringIndex+1));
                             }
                         }
                     }
