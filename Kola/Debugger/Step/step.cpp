@@ -54,6 +54,7 @@ void Step::receiveNewIndex(int index)
         param.parent->setVisible(true);
         param.name->setText(step.params[i].name);
         param.value->setText(step.params[i].value);
+        param.value->setToolTip(step.params[i].tooltip);
     }
 
     for(int i = paramsCount; i < 7; ++i) {

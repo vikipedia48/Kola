@@ -49,6 +49,7 @@ void Storage::receiveNewIndex(int index)
             if (newSlot.hash != currentSlot.hash) {
                 ui->tableWidget_storage->item(i, 0)->setText(newSlot.address);
                 ui->tableWidget_storage->item(i, 1)->setText(newSlot.word);
+                ui->tableWidget_storage->item(i, 1)->setToolTip(newSlot.tooltip);
             }
             if (newSlot.hasBeenAltered != currentSlot.hasBeenAltered) {
                 ui->tableWidget_storage->item(i, 0)->setBackground(newSlot.hasBeenAltered ? QBrush(QColor(255, 102, 0)) : QBrush());
@@ -57,6 +58,7 @@ void Storage::receiveNewIndex(int index)
         else {
             ui->tableWidget_storage->item(i, 0)->setText(newSlot.address);
             ui->tableWidget_storage->item(i, 1)->setText(newSlot.word);
+            ui->tableWidget_storage->item(i, 1)->setToolTip(newSlot.tooltip);
             ui->tableWidget_storage->item(i, 0)->setBackground(newSlot.hasBeenAltered ? QBrush(QColor(255, 102, 0)) : QBrush());
         }
     }

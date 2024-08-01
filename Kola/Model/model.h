@@ -4,6 +4,8 @@
 #include <QString>
 #include <QHash>
 
+#include "../Utils/hextooltip.h"
+
 namespace Model {
 
 struct Calldata {
@@ -66,11 +68,13 @@ struct ExecutingContract {
 struct StorageSlot {
     QString address;
     QString word;
+    QString tooltip;
     bool hasBeenAltered;
     size_t hash;
 
     StorageSlot(QString address, QString word, bool hasBeenAltered) : address(address), word(word), hasBeenAltered(hasBeenAltered) {
         hash = qHash(address, qHash(word));
+        tooltip = HexTooltip::fromWord(word);
     }
     StorageSlot() {}
     bool operator==(const StorageSlot& rhs) const { return hash == rhs.hash; }
@@ -84,8 +88,12 @@ struct StepStorage {
 };
 struct ArrayItem {
     QString title;
+    QString tooltip;
     size_t hash;
-    ArrayItem(const QString& title) : title(title) { hash = qHash(title); }
+    ArrayItem(const QString& title) : title(title) {
+        hash = qHash(title);
+        tooltip = HexTooltip::fromWord(title);
+    }
     bool operator==(const ArrayItem& rhs) { return hash == rhs.hash; }
     bool operator!=(const ArrayItem& rhs) { return hash != rhs.hash; }
 };
@@ -118,19 +126,7 @@ struct OperationArgument {
     QString tooltip;
 
     OperationArgument(QString name, QString value) : name(name), value(value) {
-        if (value.length() != 64) return;
-        auto bytes = QByteArray(32, '?');
-        bool largerThanUint64 = false;
-        for(int i = 0; i < 64; i += 2) {
-            auto hex = value.mid(i, 2);
-            auto number = hex.toUInt(nullptr, 16);
-            if (number > 0 && i < 48) largerThanUint64 = true;
-            bytes[i/2] = static_cast<unsigned char>(number);
-        }
-        tooltip = "utf8: " + QString::fromUtf8(bytes);
-        if (largerThanUint64) {
-            tooltip += "\nuint: " + QString::number(bytes.toULong()) + "\nint: " + QString::number(bytes.toLong());
-        }
+        tooltip = HexTooltip::fromWord(value);
     }
 };
 struct StepInfo {

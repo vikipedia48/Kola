@@ -330,6 +330,9 @@ color: rgb(0, 0, 0);</string>
               <property name="text">
                <string>00000000000000000000000000000000000000000000000000000000000001da</string>
               </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+              </property>
              </widget>
             </item>
            </layout>
@@ -410,6 +413,9 @@ color: rgb(0, 0, 0);</string>
               </property>
               <property name="text">
                <string>00000000000000000000000000000000000000000000000000000000000001da</string>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
@@ -492,6 +498,9 @@ color: rgb(0, 0, 0);</string>
               <property name="text">
                <string>00000000000000000000000000000000000000000000000000000000000001da</string>
               </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+              </property>
              </widget>
             </item>
            </layout>
@@ -572,6 +581,9 @@ color: rgb(0, 0, 0);</string>
               </property>
               <property name="text">
                <string>00000000000000000000000000000000000000000000000000000000000001da</string>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
@@ -654,6 +666,9 @@ color: rgb(0, 0, 0);</string>
               <property name="text">
                <string>00000000000000000000000000000000000000000000000000000000000001da</string>
               </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+              </property>
              </widget>
             </item>
            </layout>
@@ -735,6 +750,9 @@ color: rgb(0, 0, 0);</string>
               <property name="text">
                <string>00000000000000000000000000000000000000000000000000000000000001da</string>
               </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+              </property>
              </widget>
             </item>
            </layout>
@@ -815,6 +833,9 @@ color: rgb(0, 0, 0);</string>
               </property>
               <property name="text">
                <string>00000000000000000000000000000000000000000000000000000000000001da</string>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>

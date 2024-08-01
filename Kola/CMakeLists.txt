@@ -46,6 +46,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Debugger/Interface/debugger.h Debugger/Interface/debugger.cpp Debugger/Interface/debugger.ui
         Opcode/opcode.h Opcode/opcode.cpp
         Debugger/Interface/undockedwindow.h Debugger/Interface/undockedwindow.cpp Debugger/Interface/undockedwindow.ui
+        Utils/hextooltip.h
 
 
 
