@@ -5,7 +5,7 @@
 
 
 namespace HexTooltip {
-    QString fromWord(QString value) {
+    inline QString fromWord(QString value) {
         if (value.length() != 64) return {};
         auto bytes = QByteArray(32, '?');
         bool largerThanUint64 = false;
@@ -21,7 +21,7 @@ namespace HexTooltip {
         }
         return tooltip;
     }
-    QString hexNumber(QString hexString) {
+    inline QString hexNumber(QString hexString) {
         bool ok;
         uint64_t number = hexString.toULong(&ok, 16);
         return ok ? QString::number(number) : "";
