@@ -114,26 +114,6 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
         for(size_t i = 0; i < opCount; ++i) {
             auto op = structLogs[i].toObject();
 
-            std::optional<QString> errorReason;
-            auto errorObj = op["error"];
-            if (errorObj.isArray()) {
-                QString errorMsg = "Failed due to errors : ";
-                auto errors = errorObj.toArray();
-                for(auto val : errors) {
-                    errorMsg += val.toString("") + ", ";
-                }
-                errorMsg += ".";
-                errorReason = errorMsg;
-            }
-            else if (errorObj.isString()) {
-                auto error = errorObj.toString();
-                errorReason = "Failed due to error : " + error + ".";
-            }
-            else {
-                auto reason = op["reason"].toString();
-                if (!reason.isEmpty()) errorReason = "Failed due to : " + reason + ".";
-            }
-
             auto opcode = Opcode::fromName(op["op"].toString());
 
             auto stack = getStringVectorFromJsonArray(op["stack"].toArray());
@@ -146,35 +126,58 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
                 memory = getStringVectorFromJsonArray(op["memory"].toArray());
             }
 
-            if (i < opCount-1) { // update ExecutingContracts
-                if (errorReason.has_value() || opcode->decreasesDepth()) {
-                    auto callSize = calls.size();
-                    if (callSize > 1) {
-                        auto lastCall = calls[callSize-1];
-                        lastCall.lastOperationIndex = i;
-                        if (errorReason.has_value()) lastCall.failed = true;
-                        calls.push_back(calls[callSize-2]);
+            {// update ExecutingContracts and add StepInfo
+                std::optional<QString> errorReason;
+                auto errorObj = op["error"];
+                if (errorObj.isArray()) {
+                    QString errorMsg = "Failed due to errors : ";
+                    auto errors = errorObj.toArray();
+                    for(auto val : errors) {
+                        errorMsg += val.toString("") + ", ";
                     }
+                    errorMsg += ".";
+                    errorReason = errorMsg;
+                }
+                else if (errorObj.isString()) {
+                    auto error = errorObj.toString();
+                    errorReason = "Failed due to error : " + error + ".";
                 }
                 else {
-                    auto addr = opcode->callsContract(stack, QString::number(i));
-                    if (!addr.isEmpty()) {
+                    auto reason = op["reason"].toString();
+                    if (!reason.isEmpty()) errorReason = "Failed due to : " + reason + ".";
+                }
 
-                        calls[calls.size()-1].lastOperationIndex = i;
+                if (errorReason.has_value()) calls[calls.size()-1].failed = true;
 
-                        auto nextOp = structLogs[i+1].toObject();
-                        auto nextDepth = nextOp["depth"].toInt();
+                bool hasIncreasedDepth = false;
 
-                        auto calldata = opcode->calldata(stack, memory);
-                        calls.emplace_back(Model::ExecutingContract(addr,i, nextDepth, calldata));
-                        if (inferredStorage.find(addr) == inferredStorage.end()) {
-                            inferredStorage[addr] = {};
+                if (i < opCount-1) {
+                    if (errorReason.has_value() || opcode->decreasesDepth()) {
+                        auto callSize = calls.size();
+                        if (callSize > 1) {
+                            calls[callSize-1].lastOperationIndex = i;
+                            calls.push_back(calls[callSize-2]);
+                            calls[calls.size()-1].firstOperationIndex = i+1;
+                        }
+                    }
+                    else {
+                        auto addr = opcode->callsContract(stack, QString::number(i));
+                        if (!addr.isEmpty()) {
+                            hasIncreasedDepth = true;
+                            calls[calls.size()-1].lastOperationIndex = i;
+
+                            auto nextOp = structLogs[i+1].toObject();
+                            auto nextDepth = nextOp["depth"].toInt();
+
+                            auto calldata = opcode->calldata(stack, memory);
+                            calls.emplace_back(Model::ExecutingContract(addr,i+1, nextDepth, calldata));
+                            if (inferredStorage.find(addr) == inferredStorage.end()) {
+                                inferredStorage[addr] = {};
+                            }
                         }
                     }
                 }
-            }
 
-            { // StepInfo
                 std::vector<Model::OperationArgument> functionArgs;
                 if (opcode->pushSize() > 0) {
                     if (i+1 < opCount) {
@@ -214,27 +217,9 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
                 auto gasCostDouble = op["gasCost"].toDouble();
                 auto gasCost = static_cast<uint64_t>(gasCostDouble);
 
-                std::optional<QString> errorReason;
-                auto errorObj = op["error"];
-                if (errorObj.isArray()) {
-                    QString errorMsg = "Failed due to errors : ";
-                    auto errors = errorObj.toArray();
-                    for(auto val : errors) {
-                        errorMsg += val.toString("") + ", ";
-                    }
-                    errorMsg += ".";
-                    errorReason = errorMsg;
-                }
-                else if (errorObj.isString()) {
-                    auto error = errorObj.toString();
-                    errorReason = "Failed due to error : " + error + ".";
-                }
-                else {
-                    auto reason = op["reason"].toString();
-                    if (!reason.isEmpty()) errorReason = "Failed due to : " + reason + ".";
-                }
-
-                steps.emplace_back(Model::StepInfo(opcode->name(), opcode->description(), std::move(functionArgs), i, pc, gasLeft, gasCost, calls.size()-1, errorReason, newValuePushed));
+                int threadIndex = calls.size()-1;
+                if (hasIncreasedDepth) --threadIndex;
+                steps.emplace_back(Model::StepInfo(opcode->name(), opcode->description(), std::move(functionArgs), i, pc, gasLeft, gasCost, threadIndex, errorReason, newValuePushed));
             }
 
             { // assign memory and reconstruct calldata
@@ -354,6 +339,7 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
             }
         }
 
+        calls[calls.size()-1].lastOperationIndex = opCount-1;
         mainCalldata.setStringRepresentation();
         for(auto& v : calls) if(v.isMain) v.calldata = mainCalldata;
 
