@@ -128,23 +128,30 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
 
             {// update ExecutingContracts and add StepInfo
                 std::optional<QString> errorReason;
+                bool reverted;
                 auto errorObj = op["error"];
                 if (errorObj.isArray()) {
-                    QString errorMsg = "Failed due to errors : ";
+                    QString errorMsg = "Failed due to : ";
                     auto errors = errorObj.toArray();
+
                     for(auto val : errors) {
-                        errorMsg += val.toString("") + ", ";
+                        errorMsg += val.toString("") + ",";
                     }
+                    if (!errors.isEmpty()) errorMsg.chop(1);
+
                     errorMsg += ".";
                     errorReason = errorMsg;
                 }
                 else if (errorObj.isString()) {
                     auto error = errorObj.toString();
-                    errorReason = "Failed due to error : " + error + ".";
+                    errorReason = "Failed due to : " + error + ".";
                 }
                 else {
                     auto reason = op["reason"].toString();
-                    if (!reason.isEmpty()) errorReason = "Failed due to : " + reason + ".";
+                    if (!reason.isEmpty()) {
+                        reverted = true;
+                        errorReason = reason;
+                    }
                 }
 
                 if (errorReason.has_value()) calls[calls.size()-1].failed = true;
@@ -219,7 +226,7 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
 
                 int threadIndex = calls.size()-1;
                 if (hasIncreasedDepth) --threadIndex;
-                steps.emplace_back(Model::StepInfo(opcode->name(), opcode->description(), std::move(functionArgs), i, pc, gasLeft, gasCost, threadIndex, errorReason, newValuePushed));
+                steps.emplace_back(Model::StepInfo(opcode->name(), opcode->description(), std::move(functionArgs), i, pc, gasLeft, gasCost, threadIndex, errorReason, reverted, newValuePushed));
             }
 
             { // assign memory and reconstruct calldata

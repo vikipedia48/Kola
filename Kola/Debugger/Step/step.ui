@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>720</width>
-    <height>261</height>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -200,6 +200,12 @@
    </item>
    <item>
     <widget class="QLabel" name="label_error">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="font">
       <font>
        <pointsize>12</pointsize>

@@ -26,6 +26,16 @@ namespace HexTooltip {
         uint64_t number = hexString.toULong(&ok, 16);
         return ok ? QString::number(number) : "";
     }
+    inline QString hexUtf8(QString value) {
+        size_t valueSize = value.size();
+        auto bytes = QByteArray(valueSize/2, '?');
+        for(int i = 0; i < value.size(); i += 2) {
+            auto hex = value.mid(i, 2);
+            auto number = hex.toUInt(nullptr, 16);
+            bytes[i/2] = static_cast<unsigned char>(number);
+        }
+        return "utf8: " + QString::fromUtf8(bytes);
+    }
 }
 
 #endif // HEXTOOLTIP_H

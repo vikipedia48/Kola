@@ -1,6 +1,8 @@
 #include "step.h"
 #include "ui_step.h"
 
+#include "../../Utils/hextooltip.h"
+
 Step::Step(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Step)
@@ -40,6 +42,7 @@ void Step::receiveNewIndex(int index)
     if (step.errorReason.has_value()) {
         ui->label_error->setVisible(true);
         ui->label_error->setText(step.errorReason.value());
+        ui->label_error->setToolTip(step.reverted ? HexTooltip::hexUtf8(step.errorReason.value()) : "");
     }
     else {
         ui->label_error->setVisible(false);

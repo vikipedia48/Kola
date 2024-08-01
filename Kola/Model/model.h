@@ -142,10 +142,11 @@ struct StepInfo {
     uint64_t gasCost;
     QString gasCostStr;
     std::optional<QString> errorReason;
+    bool reverted;
     int threadIndex;
     std::optional<QString> newValuePushed;
 
-    StepInfo(QString opcode, QString description, std::vector<OperationArgument>&& params, int index, uint64_t pc, uint64_t gasLeft, uint64_t gasCost, int threadIndex, std::optional<QString> errorReason, std::optional<QString> newValuePushed)
+    StepInfo(QString opcode, QString description, std::vector<OperationArgument>&& params, int index, uint64_t pc, uint64_t gasLeft, uint64_t gasCost, int threadIndex, std::optional<QString> errorReason, bool reverted, std::optional<QString> newValuePushed)
         : opcode(opcode), description(description), params(params),
         index(index), indexStr(QString::number(index)),
         pc(pc), pcStr(QString::number(pc)),
@@ -153,6 +154,7 @@ struct StepInfo {
         gasCost(gasCost), gasCostStr(QString::number(gasCost)),
         threadIndex(threadIndex),
         errorReason(errorReason),
+        reverted(reverted),
         newValuePushed(newValuePushed)
         {}
 };
