@@ -1,6 +1,10 @@
 #include "memory.h"
 #include "ui_memory.h"
 
+#include "../../Utils/hextooltip.h"
+
+#include <QClipboard>
+
 Memory::Memory(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Memory)
@@ -102,5 +106,12 @@ void Memory::on_pushButton_dock_clicked()
 {
     emit sendDockState(docked);
     docked = !docked;
+}
+
+
+void Memory::on_tableWidget_memory_itemDoubleClicked(QTableWidgetItem *item)
+{
+    QClipboard* clipboard = QGuiApplication::clipboard();
+    clipboard->setText(item->text());
 }
 

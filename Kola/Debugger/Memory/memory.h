@@ -26,6 +26,8 @@ signals:
 private slots:
     void on_pushButton_dock_clicked();
 
+    void on_tableWidget_memory_itemDoubleClicked(QTableWidgetItem *item);
+
 private:
     Ui::Memory *ui;
 

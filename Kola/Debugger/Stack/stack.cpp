@@ -1,6 +1,8 @@
 #include "stack.h"
 #include "ui_stack.h"
 
+#include <QClipboard>
+
 Stack::Stack(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Stack)
@@ -14,14 +16,14 @@ Stack::Stack(std::vector<Model::StepStack> &&items, QWidget *parent) : QWidget(p
     setWindowTitle("Stack");
     ui->listWidget_stack->setStyleSheet(
         "QListWidget::item:hover {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "}"
         "QListWidget::item:selected {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "   color: inherit;"
         "}"
         "QListWidget::item:selected:active {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "   color: inherit;"
         "}"
         );
@@ -95,12 +97,12 @@ void Stack::on_pushButton_expand_clicked()
 {
     bool secondaryStackVisible = ui->listWidget_entireStack->isVisible();
     if (secondaryStackVisible) {
-        ui->pushButton_expand->setText("Show less");
+        ui->pushButton_expand->setText("Show more");
         ui->listWidget_entireStack->setVisible(false);
         return;
     }
 
-    ui->pushButton_expand->setText("Show more");
+    ui->pushButton_expand->setText("Show less");
     ui->listWidget_entireStack->setVisible(true);
     fillSecondaryStack();
 }
@@ -122,4 +124,11 @@ void Stack::fillSecondaryStack()
     }
 }
 
+
+
+void Stack::on_listWidget_stack_itemDoubleClicked(QListWidgetItem *item)
+{
+    QClipboard* clipboard = QGuiApplication::clipboard();
+    clipboard->setText(item->text());
+}
 

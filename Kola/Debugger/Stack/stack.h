@@ -1,6 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include <QListWidgetItem>
 #include <QWidget>
 
 #include "../../Model/model.h"
@@ -28,6 +29,8 @@ private slots:
     void on_pushButton_dock_clicked();
 
     void on_pushButton_expand_clicked();
+
+    void on_listWidget_stack_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::Stack *ui;

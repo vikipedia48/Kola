@@ -2,6 +2,7 @@
 #define STORAGE_H
 
 #include <QWidget>
+#include <QTableWidgetItem>
 
 #include "../../Model/model.h"
 
@@ -25,6 +26,8 @@ public slots:
 
 private slots:
     void on_pushButton_dock_clicked();
+
+    void on_tableWidget_storage_itemDoubleClicked(QTableWidgetItem *item);
 
 private:
     Ui::Storage *ui;

@@ -1,6 +1,8 @@
 #include "storage.h"
 #include "ui_storage.h"
 
+#include <QClipboard>
+
 Storage::Storage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Storage)
@@ -85,5 +87,12 @@ void Storage::on_pushButton_dock_clicked()
 {
     docked = !docked;
     emit sendDockState(docked);
+}
+
+
+void Storage::on_tableWidget_storage_itemDoubleClicked(QTableWidgetItem *item)
+{
+    QClipboard* clipboard = QGuiApplication::clipboard();
+    clipboard->setText(item->text());
 }
 
