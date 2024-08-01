@@ -1224,8 +1224,8 @@ std::vector<std::pair<QString, QString> > Call::functionArgs(const std::vector<Q
 QString Call::callsContract(const std::vector<QString> &stack, QString arg)
 {
     if(stack.size() < 1) return "0x";
-    auto iter = stack.rbegin();
-    return "0x" + *(++iter);
+    auto lastWord = *(++stack.rbegin());
+    return "0x" + lastWord.right(40);
 }
 
 Model::Calldata Call::calldata(const std::vector<QString> &stack, const std::vector<QString> &memory)
@@ -1256,8 +1256,8 @@ std::vector<std::pair<QString, QString> > CallCode::functionArgs(const std::vect
 QString CallCode::callsContract(const std::vector<QString> &stack, QString arg)
 {
     if(stack.size() < 1) return "0x";
-    auto iter = stack.rbegin();
-    return "0x" + *(++iter);
+    auto lastWord = *(++stack.rbegin());
+    return "0x" + lastWord.right(40);
 }
 
 Model::Calldata CallCode::calldata(const std::vector<QString> &stack, const std::vector<QString> &memory)
@@ -1300,8 +1300,8 @@ std::vector<std::pair<QString, QString> > DelegateCall::functionArgs(const std::
 QString DelegateCall::callsContract(const std::vector<QString> &stack, QString arg)
 {
     if(stack.size() < 1) return "0x";
-    auto iter = stack.rbegin();
-    return "0x" + *(++iter);
+    auto lastWord = *(++stack.rbegin());
+    return "0x" + lastWord.right(40);
 }
 
 Model::Calldata DelegateCall::calldata(const std::vector<QString> &stack, const std::vector<QString> &memory)
@@ -1332,8 +1332,8 @@ std::vector<std::pair<QString, QString> > Create2::functionArgs(const std::vecto
 QString Create2::callsContract(const std::vector<QString> &stack, QString arg)
 {
     if(stack.size() < 4) return "0x";
-    auto iter = stack.rbegin();
-    return "new contract at 0x" + *(iter + 3);
+    auto lastWord = *(stack.rbegin()+3);
+    return "new contract at 0x" + lastWord.right(40);
 }
 
 Model::Calldata Create2::calldata(const std::vector<QString> &stack, const std::vector<QString> &memory)
@@ -1365,8 +1365,8 @@ std::vector<std::pair<QString, QString> > StaticCall::functionArgs(const std::ve
 QString StaticCall::callsContract(const std::vector<QString> &stack, QString arg)
 {
     if(stack.size() < 1) return "0x";
-    auto iter = stack.rbegin();
-    return "0x" + *(++iter);
+    auto lastWord = *(++stack.rbegin());
+    return "0x" + lastWord.right(40);
 }
 
 Model::Calldata StaticCall::calldata(const std::vector<QString> &stack, const std::vector<QString> &memory)
