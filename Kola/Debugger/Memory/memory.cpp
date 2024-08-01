@@ -22,6 +22,7 @@ Memory::Memory(std::vector<Model::StepMemory> &&memoryArrays, QWidget *parent) :
         QString addr = "00";
         if (i > 0) addr.setNum(i * 32, 16);
         auto addrItem = new QTableWidgetItem(addr);
+        addrItem->setToolTip(HexTooltip::hexNumber(addr));
         auto valueItem = new QTableWidgetItem("");
         ui->tableWidget_memory->setItem(i, 0, addrItem);
         ui->tableWidget_memory->setItem(i, 1, valueItem);
@@ -68,6 +69,7 @@ void Memory::receiveNewIndex(int index)
             }
         }
         ui->tableWidget_memory->item(i, 1)->setText(block.title);
+        ui->tableWidget_memory->item(i, 1)->setToolTip(block.tooltip);
     }
     for(int i = memorySize; i < maxMemorySize; ++i) {
         auto item = ui->tableWidget_memory->item(i, 1);
