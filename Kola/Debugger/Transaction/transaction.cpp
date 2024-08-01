@@ -8,8 +8,8 @@ Transaction::Transaction(QWidget *parent)
     ui->setupUi(this);
 }
 
-Transaction::Transaction(int stepCount, uint64_t startingGas, bool failed, QString returnValue, QWidget *parent) : QWidget(parent), ui(new Ui::Transaction), docked(true),
-    startingGas(startingGas), failed(failed), returnValue(returnValue)
+Transaction::Transaction(int stepCount, bool failed, QString returnValue, QWidget *parent) : QWidget(parent), ui(new Ui::Transaction), docked(true),
+    failed(failed), returnValue(returnValue)
 {
     ui->setupUi(this);
     setWindowTitle("Transaction");
@@ -17,12 +17,6 @@ Transaction::Transaction(int stepCount, uint64_t startingGas, bool failed, QStri
     ui->horizontalSlider_step->setMinimum(0);
     ui->horizontalSlider_step->setMaximum(stepCount - 1);
 
-    if (startingGas == 0) {
-        ui->label_startingGas->setVisible(false);
-    }
-    else {
-        ui->label_startingGas->setText("Starting gas : " + QString::number(startingGas));
-    }
     if (failed) {
         ui->label_returnValue->setVisible(false);
     }

@@ -13,7 +13,7 @@ class Transaction : public QWidget
 
 public:
     explicit Transaction(QWidget *parent = nullptr);
-    Transaction(int stepCount, uint64_t startingGas, bool failed, QString returnValue, QWidget* parent = nullptr);
+    Transaction(int stepCount, bool failed, QString returnValue, QWidget* parent = nullptr);
     ~Transaction();
 signals:
     void sendDockedState(bool docked);
@@ -29,7 +29,6 @@ private:
     Ui::Transaction *ui;
 
     bool docked;
-    uint64_t startingGas;
     bool failed;
     QString returnValue;
 };

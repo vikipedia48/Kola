@@ -73,7 +73,6 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
 
         Transaction* transactionWindow;
         {
-            uint64_t startGas = static_cast<uint64_t>(json["gas"].toDouble(0));
             bool failed = json["failed"].toBool(false);
 
             QString returnValue;
@@ -95,7 +94,7 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
                 returnValue = "";
             }
 
-            transactionWindow = new Transaction(opCount, startGas, failed, returnValue);
+            transactionWindow = new Transaction(opCount, failed, returnValue);
         }
 
         std::vector<Model::StepInfo> steps;
