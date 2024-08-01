@@ -276,6 +276,7 @@ void Lookup::goToResult(int index)
     ui->listWidget_steps->scrollToItem(item);
 
     currentResultIndex = index;
+    emit sendNewIndex(results[index]);
 }
 
 void Lookup::on_pushButton_seek_clicked()
