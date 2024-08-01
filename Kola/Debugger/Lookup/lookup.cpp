@@ -34,14 +34,14 @@ Lookup::Lookup(std::vector<Model::ExecutingContract> *contracts,
     setWindowTitle("Lookup");
     ui->listWidget_steps->setStyleSheet(
         "QListWidget::item:hover {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "}"
         "QListWidget::item:selected {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "   color: inherit;"
         "}"
         "QListWidget::item:selected:active {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "   color: inherit;"
         "}"
         );
@@ -91,7 +91,8 @@ void Lookup::receiveLuaBodyAndRun(QString lua, bool filterOrSeek)
 void Lookup::on_pushButton_filter_clicked()
 {
     if (luaFilterWindow != nullptr) {
-        Gui::PrintMessage("Filter", "Window is already opened");
+        //Gui::PrintMessage("Filter", "Window is already opened");
+        luaFilterWindow->show();
         return;
     }
 
@@ -267,8 +268,13 @@ void Lookup::showAll()
 
 void Lookup::goToResult(int index)
 {
+    auto currentItem = ui->listWidget_steps->item(results[currentResultIndex]);
+    currentItem->setBackground(QBrush());
+
     auto item = ui->listWidget_steps->item(results[index]);
+    item->setBackground(QBrush(QColor(0, 204, 0)));
     ui->listWidget_steps->scrollToItem(item);
+
     currentResultIndex = index;
 }
 
@@ -276,7 +282,8 @@ void Lookup::on_pushButton_seek_clicked()
 {
 
     if (luaSeekWindow != nullptr) {
-        Gui::PrintMessage("Filter", "Window is already opened");
+        //Gui::PrintMessage("Filter", "Window is already opened");
+        luaSeekWindow->show();
         return;
     }
 
@@ -291,7 +298,7 @@ void Lookup::on_pushButton_findPrevious_clicked()
 {
     if (results.size() < 2) return;
     if (currentResultIndex == 0) goToResult(results.size()-1);
-    goToResult(--currentResultIndex);
+    else goToResult(currentResultIndex - 1);
 }
 
 
@@ -299,14 +306,14 @@ void Lookup::on_pushButton_findNext_clicked()
 {
     if (results.size() < 2) return;
     if (currentResultIndex == results.size()-1) goToResult(0);
-    goToResult(++currentResultIndex);
+    else goToResult(currentResultIndex + 1);
 }
 
 
 void Lookup::on_pushButton_seekReset_clicked()
 {
     for(auto& v : results) {
-        ui->listWidget_steps->item(v)->setBackground(QBrush());
+        ui->listWidget_steps->item(v)->setBackground(QBrush(QColor(204, 153, 0)));
     }
     results.clear();
 }
