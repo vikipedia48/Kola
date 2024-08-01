@@ -15,26 +15,20 @@ ContractCalls::ContractCalls(std::vector<Model::ExecutingContract>&& contracts, 
     setWindowTitle("Contract Calls");
     ui->listWidget_calls->setStyleSheet(
         "QListWidget::item:hover {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "}"
         "QListWidget::item:selected {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "   color: inherit;"
         "}"
         "QListWidget::item:selected:active {"
-        "   background-color: rgba(127, 25, 25, 255);"
+        "   background-color: rgba(127, 25, 25, 128);"
         "   color: inherit;"
         "}"
         );
-    for(auto& v : this->contractCalls) {
-        QString threadTitle = "";
-        for(int i = 1; i < v.depth; ++i) {
-            threadTitle += " -";
-        }
-        if (v.depth > 1) threadTitle += " ";
-        threadTitle += v.title;
-        auto item = new QListWidgetItem(threadTitle);
-        if (v.failed) item->setBackground(QBrush(QColor(250,7,7)));
+    for(int i = 0; i < this->contractCalls.size(); ++i) {
+        auto item = new QListWidgetItem(QString::number(i) + " - " + this->contractCalls[i].title);
+        if (this->contractCalls[i].failed) item->setBackground(QBrush(QColor(250,7,7)));
         ui->listWidget_calls->addItem(item);
     }
 
