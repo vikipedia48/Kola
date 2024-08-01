@@ -672,7 +672,7 @@ public:
     std::vector<std::pair<QString,QString>> functionArgs(const std::vector<QString>& stack, const QString& arg = {}) override {
         uint32_t swapN = swapSize();
         if (stack.size() <= swapN) return { { "value", "ERROR" } };
-        return { { "value", stack[stack.size() - swapN] } };
+        return { { "value", stack[stack.size() - swapN - 1] } };
     }
     QString description() override {
         uint32_t swapN = swapSize();
