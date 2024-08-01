@@ -36,5 +36,8 @@ private:
 
     std::vector<QString> getStringVectorFromJsonArray(const QJsonArray& arr);
     std::vector<Model::StorageSlot> getStorageFromJsonObject(const QJsonObject& obj);
+
+protected:
+    void closeEvent(QCloseEvent* event) override;
 };
 #endif // MAINWINDOW_H

@@ -398,3 +398,8 @@ std::vector<Model::StorageSlot> MainWindow::getStorageFromJsonObject(const QJson
     }
     return rv;
 }
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QApplication::quit();
+}
