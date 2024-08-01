@@ -6,18 +6,18 @@
 
 namespace HexTooltip {
     inline QString fromWord(QString value) {
-        if (value.length() != 64) return {};
-        auto bytes = QByteArray(32, '?');
+        size_t valueSize = value.size();
+        auto bytes = QByteArray(valueSize/2, '?');
         bool largerThanUint64 = false;
-        for(int i = 0; i < 64; i += 2) {
+        for(int i = 0; i < value.size(); i += 2) {
             auto hex = value.mid(i, 2);
             auto number = hex.toUInt(nullptr, 16);
-            if (number > 0 && i < 48) largerThanUint64 = true;
+            if (number > 0 && valueSize - i > 16) largerThanUint64 = true;
             bytes[i/2] = static_cast<unsigned char>(number);
         }
         QString tooltip = "utf8: " + QString::fromUtf8(bytes);
         if (!largerThanUint64) {
-            tooltip += "\nuint: " + QString::number(bytes.toULong()) + "\nint: " + QString::number(bytes.toLong());
+            tooltip += "\nuint: " + QString::number(value.toULong(nullptr, 16)) + "\nint: " + QString::number(value.toLong(nullptr, 16));
         }
         return tooltip;
     }
