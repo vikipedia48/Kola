@@ -74,6 +74,7 @@ void InputMethodPick::on_pushButton_web_send_clicked()
 
     auto request = QNetworkRequest(QUrl(ui->lineEdit_rpcAddress->text()));
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/json");
+    request.setTransferTimeout(120000);
     auto requestBody = "{\"jsonrpc\":\"2.0\",\"method\":\"debug_traceTransaction\",\"params\":[\"" + ui->lineEdit_txHash->text() + "\"],\"id\":1}";
     connect(requestManager, &QNetworkAccessManager::finished, this, &InputMethodPick::handleResponse);
     requestManager->post(request, requestBody.toUtf8());
@@ -87,6 +88,10 @@ void InputMethodPick::handleResponse(QNetworkReply *reply)
     }
     else {
         auto bytes = reply->readAll();
+        {
+            QFile file("response.json");
+            if (file.open(QIODevice::WriteOnly)) file.write(bytes);
+        }
         auto jsonDoc = QJsonDocument::fromJson(bytes);
         if (!jsonDoc.isObject()) {
             Gui::ThrowError("bad response from RPC");
