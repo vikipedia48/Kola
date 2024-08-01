@@ -69,3 +69,10 @@ void ContractCalls::selectContract(int contractIndex)
 }
 
 
+
+void ContractCalls::on_listWidget_calls_itemDoubleClicked(QListWidgetItem *item)
+{
+    auto indexInItem = ui->listWidget_calls->indexFromItem(item).row();
+    emit sendOperationIndex(contractCalls[indexInItem].firstOperationIndex);
+}
+

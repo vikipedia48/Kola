@@ -57,6 +57,7 @@ void Debugger::assignContractsWindow(ContractCalls *window)
     ui->verticalLayout_contractCalls->addWidget(window);
     connect(this, &Debugger::sendNewIndex, this->contractCallsWindow, &ContractCalls::receiveNewIndex);
     connect(this->contractCallsWindow, &ContractCalls::sendDockState, this, &Debugger::dockContractCallsWindow);
+    connect(this->contractCallsWindow, &ContractCalls::sendOperationIndex, this, &Debugger::receiveNewIndex);
 }
 
 void Debugger::assignLookupWindow(Lookup *window)
@@ -106,8 +107,8 @@ void Debugger::assignTransactionWindow(Transaction *window)
     this->transactionWindow = window;
     ui->verticalLayout_transaction->addWidget(window);
     connect(this->transactionWindow, &Transaction::sendNewIndex, this, &Debugger::receiveNewIndex);
-    connect(this, &Debugger::sendNewIndex, this->transactionWindow, &Transaction::receiveNewIndexChange);
     connect(this->transactionWindow, &Transaction::sendDockedState, this, &Debugger::dockTransactionWindow);
+    connect(this, &Debugger::sendNewIndex, this->transactionWindow, &Transaction::receiveNewIndexChange);
 }
 
 void Debugger::dockContractCallsWindow(bool docked)

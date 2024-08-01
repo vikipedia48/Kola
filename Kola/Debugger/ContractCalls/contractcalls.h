@@ -29,6 +29,8 @@ public slots:
 private slots:
     void on_pushButton_dock_clicked();
 
+    void on_listWidget_calls_itemDoubleClicked(QListWidgetItem *item);
+
 private:
     Ui::ContractCalls *ui;
 
