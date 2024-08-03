@@ -132,7 +132,7 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
                 bool reverted;
                 auto errorObj = op["error"];
                 if (errorObj.isArray()) {
-                    QString errorMsg = "Failed due to : ";
+                    QString errorMsg = "Failed due to : \n";
                     auto errors = errorObj.toArray();
 
                     for(auto val : errors) {
@@ -145,7 +145,7 @@ void MainWindow::receiveStackTraceJson(QJsonObject &json)
                 }
                 else if (errorObj.isString()) {
                     auto error = errorObj.toString();
-                    errorReason = "Failed due to : " + error + ".";
+                    errorReason = "Failed due to \n: " + error;
                 }
                 else {
                     auto reason = op["reason"].toString();

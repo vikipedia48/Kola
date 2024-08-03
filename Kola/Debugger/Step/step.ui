@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -199,26 +199,15 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label_error">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+    <widget class="QTextBrowser" name="textBrowser_error">
      <property name="font">
       <font>
        <pointsize>12</pointsize>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(255, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>error reason</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string notr="true">color: rgb(255, 0, 0);
+background-color: transparent;</string>
      </property>
     </widget>
    </item>

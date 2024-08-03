@@ -40,12 +40,12 @@ void Step::receiveNewIndex(int index)
     ui->label_gasCostValue->setText(step.gasCostStr);
 
     if (step.errorReason.has_value()) {
-        ui->label_error->setVisible(true);
-        ui->label_error->setText(step.errorReason.value());
-        ui->label_error->setToolTip(step.reverted ? HexTooltip::hexUtf8(step.errorReason.value()) : "");
+        ui->textBrowser_error->setVisible(true);
+        ui->textBrowser_error->setText(step.errorReason.value());
+        ui->textBrowser_error->setToolTip(step.reverted ? HexTooltip::hexUtf8(step.errorReason.value()) : "");
     }
     else {
-        ui->label_error->setVisible(false);
+        ui->textBrowser_error->setVisible(false);
     }
 
     ui->label_opcode->setText(step.opcode);
