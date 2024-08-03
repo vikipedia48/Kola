@@ -1,7 +1,16 @@
 # Kola
 Visualizer for Ethereum debug_traceTransaction logs
+
 Can read the debug_traceTransaction from a local file or by making a request to an RPC node (DEBUG methods must be enabled on the network). 
 
+## Shortcuts
+Use the A and D keys for moving between steps. Holding shift simultaneously moves by 10, ctrl moves by 50. 
+
+Use the W and S keys for moving between 'Seek' results
+
+Double clicking Lookup window jumps to that step. Double clicking Contract Calls window jumps to the first step in that thread.
+
+Double clicking any Stack, Memory or Storage value copies it to clipboard.
 
 ## Lookup instructions
 Steps can be filtered or seeked in the lookup window. A Lua script is used to find matches for your query. Variables that can be used in the script are:
