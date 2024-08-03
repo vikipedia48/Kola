@@ -57,6 +57,7 @@ void MainWindow::closeCurrentWindow()
 {
     if (currentWindow == nullptr) return;
     currentWindow->close();
+    currentWindow->deleteLater();
     currentWindow = nullptr;
 }
 
