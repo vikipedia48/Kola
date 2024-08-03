@@ -314,7 +314,7 @@ void Lookup::on_pushButton_findNext_clicked()
 void Lookup::on_pushButton_seekReset_clicked()
 {
     for(auto& v : results) {
-        ui->listWidget_steps->item(v)->setBackground(QBrush(QColor(204, 153, 0)));
+        ui->listWidget_steps->item(v)->setBackground(QBrush());
     }
     results.clear();
 }
